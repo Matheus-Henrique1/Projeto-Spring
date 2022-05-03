@@ -8,6 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Categoria implements Serializable {
 
@@ -15,34 +24,9 @@ public class Categoria implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private Integer id;
 	private String nome;
 
-	public Categoria() {
-
-	}
-
-	public Categoria(Integer id, String nome) {
-		this.id = id;
-		this.nome = nome;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNome() {
-		return this.nome;
-	}
 
 	@Override
 	public int hashCode() {
