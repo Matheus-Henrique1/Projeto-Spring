@@ -2,40 +2,47 @@ package com.matheushenrique.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
-public class Cidade implements Serializable {
-
+public class Endereco implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
+	private String logradouro;
+	private String numero;
+	private String complemento;
+	private String bairro;
+	private String cep;
 	@ManyToOne
-	@JoinColumn(name = "estado_id")
-	private Estado estado;
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
+	private Cidade cidade;
 	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -44,10 +51,9 @@ public class Cidade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cidade other = (Cidade) obj;
+		Endereco other = (Endereco) obj;
 		return Objects.equals(id, other.id);
 	}
 	
 	
-
 }
