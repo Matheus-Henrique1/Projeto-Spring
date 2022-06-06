@@ -13,6 +13,7 @@ import com.matheushenrique.cursomc.dao.CidadeDAO;
 import com.matheushenrique.cursomc.dao.ClienteDAO;
 import com.matheushenrique.cursomc.dao.EnderecoDAO;
 import com.matheushenrique.cursomc.dao.EstadoDAO;
+import com.matheushenrique.cursomc.dao.ItemPedidoDAO;
 import com.matheushenrique.cursomc.dao.PagamentoDAO;
 import com.matheushenrique.cursomc.dao.PedidoDAO;
 import com.matheushenrique.cursomc.dao.ProdutoDAO;
@@ -21,6 +22,7 @@ import com.matheushenrique.cursomc.domain.Cidade;
 import com.matheushenrique.cursomc.domain.Cliente;
 import com.matheushenrique.cursomc.domain.Endereco;
 import com.matheushenrique.cursomc.domain.Estado;
+import com.matheushenrique.cursomc.domain.ItemPedido;
 import com.matheushenrique.cursomc.domain.Pagamento;
 import com.matheushenrique.cursomc.domain.PagamentoComBoleto;
 import com.matheushenrique.cursomc.domain.PagamentoComCartao;
@@ -56,6 +58,9 @@ public class CursomcApplication implements CommandLineRunner {
 	@Autowired
 	private PagamentoDAO pagamentoDAO;
 	
+	@Autowired
+	private ItemPedidoDAO itemPedidoDAO;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -64,20 +69,20 @@ public class CursomcApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Escritório");
-		Produto p1 = new Produto(null, "Computador", 2000.00);
-		Produto p2 = new Produto(null, "Impressora", 800.00);
-		Produto p3 = new Produto(null, "Mouse", 80.00);
+		Categoria categoria1 = new Categoria(null, "Informática");
+		Categoria categoria2 = new Categoria(null, "Escritório");
+		Produto produto1 = new Produto(null, "Computador", 2000.00);
+		Produto produto2 = new Produto(null, "Impressora", 800.00);
+		Produto produto3 = new Produto(null, "Mouse", 80.00);
 		
-		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-		cat2.getProdutos().addAll(Arrays.asList(p2));
-		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1));
+		categoria1.getProdutos().addAll(Arrays.asList(produto1, produto2, produto3));
+		categoria2.getProdutos().addAll(Arrays.asList(produto2));
+		produto1.getCategorias().addAll(Arrays.asList(categoria1));
+		produto2.getCategorias().addAll(Arrays.asList(categoria1, categoria2));
+		produto3.getCategorias().addAll(Arrays.asList(categoria1));
 		
-		categoriaDAO.saveAll(Arrays.asList(cat1, cat2));
-		produtoDAO.saveAll(Arrays.asList(p1, p2, p3));
+		categoriaDAO.saveAll(Arrays.asList(categoria1, categoria2));
+		produtoDAO.saveAll(Arrays.asList(produto1, produto2, produto3));
 		
 		
 		Estado estado1 = new Estado(null, "Minas Gerais");
@@ -120,6 +125,19 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		pedidoDAO.saveAll(Arrays.asList(pedido1, pedido2));
 		pagamentoDAO.saveAll(Arrays.asList(pagamento1, pagamento2));
+		
+		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.00, 1, 2000.00);
+		ItemPedido itemPedido2 = new ItemPedido(pedido1, produto3, 0.00, 2, 80.00);
+		ItemPedido itemPedido3 = new ItemPedido(pedido2, produto2, 100.00, 1, 800.00);
+		
+		pedido1.getItens().addAll(Arrays.asList(itemPedido1, itemPedido2));
+		pedido2.getItens().addAll(Arrays.asList(itemPedido3));
+		
+		produto1.getItens().addAll(Arrays.asList(itemPedido1));
+		produto2.getItens().addAll(Arrays.asList(itemPedido3));
+		produto3.getItens().addAll(Arrays.asList(itemPedido2));
+		
+		itemPedidoDAO.saveAll(Arrays.asList(itemPedido1, itemPedido2, itemPedido3));
 		
 	}
 
